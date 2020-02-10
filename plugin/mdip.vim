@@ -110,30 +110,46 @@ function! InputName()
     return name
 endfunction
 
+func! mdip#HasImgInPbpaste()
+	let c= execute("!pbpaste")
+	let c = trim(c)
+	if c ==":!pbpaste"
+			return 1
+	else
+			return 0
+	endif
+endf
+
 function! mdip#MarkdownClipboardImage()
     " detect os: https://vi.stackexchange.com/questions/2572/detect-os-in-vimscript
     let s:os = "Windows"
     if !(has("win64") || has("win32") || has("win16"))
         let s:os = substitute(system('uname'), '\n', '', '')
     endif
+		if 1==mdip#HasImgInPbpaste()
 
-    let workdir = SafeMakeDir()
-    " change temp-file-name and image-name
-    " let g:mdip_tmpname = InputName()
-    " if empty(g:mdip_tmpname)
-    let g:mdip_tmpname = RandomName()
-    " endif
+			let workdir = SafeMakeDir()
+			" change temp-file-name and image-name
+			" let g:mdip_tmpname = InputName()
+			" if empty(g:mdip_tmpname)
+			let g:mdip_tmpname = RandomName()
+			" endif
 
-    let tmpfile = SaveFileTMP(workdir, g:mdip_tmpname)
-    if tmpfile == 1
-			 " should act as normal p
+			let tmpfile = SaveFileTMP(workdir, g:mdip_tmpname)
+			if tmpfile == 1
+				 " should act as normal p
+				 return 
+			else
+					" let relpath = SaveNewFile(g:mdip_imgdir, tmpfile)
+					let extension = split(tmpfile, '\.')[-1]
+					let relpath = g:mdip_imgdir . '/' . g:mdip_tmpname . '.' . extension
+					execute "normal! i![Image](" . relpath . ")"
+			endif
+
+		else
        execute "normal! p" 
-    else
-        " let relpath = SaveNewFile(g:mdip_imgdir, tmpfile)
-        let extension = split(tmpfile, '\.')[-1]
-        let relpath = g:mdip_imgdir . '/' . g:mdip_tmpname . '.' . extension
-        execute "normal! i![Image](" . relpath . ")"
-    endif
+		endif
+
 endfunction
 
 if !exists('g:mdip_imgdir')
