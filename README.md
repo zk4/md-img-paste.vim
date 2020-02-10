@@ -8,7 +8,7 @@ You are editing a markdown file and have an image on the clipboard and want to p
 
 Using Vundle
 ```
-Plugin 'ferrine/md-img-paste.vim'
+Plugin 'zk4/md-img-paste.vim'
 ```
 
 ## Usage
