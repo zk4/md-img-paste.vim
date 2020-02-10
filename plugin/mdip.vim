@@ -126,7 +126,8 @@ function! mdip#MarkdownClipboardImage()
 
     let tmpfile = SaveFileTMP(workdir, g:mdip_tmpname)
     if tmpfile == 1
-        return
+			 " should act as normal p
+       execute "normal! p" 
     else
         " let relpath = SaveNewFile(g:mdip_imgdir, tmpfile)
         let extension = split(tmpfile, '\.')[-1]
