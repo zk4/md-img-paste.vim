@@ -120,7 +120,7 @@ func! mdip#HasImgInPbpaste()
 	endif
 endf
 
-function! mdip#MarkdownClipboardImage()
+function! mdip#MarkdownClipboardImage(wiki)
     " detect os: https://vi.stackexchange.com/questions/2572/detect-os-in-vimscript
     let s:os = "Windows"
     if !(has("win64") || has("win32") || has("win16"))
@@ -143,7 +143,11 @@ function! mdip#MarkdownClipboardImage()
 					" let relpath = SaveNewFile(g:mdip_imgdir, tmpfile)
 					let extension = split(tmpfile, '\.')[-1]
 					let relpath = g:mdip_imgdir . '/' . g:mdip_tmpname . '.' . extension
+					if a:wiki ==? "wiki"
+					execute "normal! i{{" . relpath . "}}"
+					else
 					execute "normal! i![Image](" . relpath . ")"
+					endif
 			endif
 
 		else
