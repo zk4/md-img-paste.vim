@@ -17,6 +17,8 @@ Add to .vimrc
 ```
 autocmd FileType markdown nmap <buffer><silent> p :call mdip#MarkdownClipboardImage()<CR>
 autocmd FileType markdown nmap <buffer><silent> P <up>:call mdip#MarkdownClipboardImage()<CR>
+autocmd FileType vimwiki nmap <buffer><silent> p :call mdip#MarkdownClipboardImage("wiki")<CR>
+autocmd FileType vimwiki nmap <buffer><silent> P <up>:call mdip#MarkdownClipboardImage("wiki")<CR>
 
 " there are some defaults for image directory and image name, you can change them
 " let g:mdip_imgdir = 'img'
